@@ -143,7 +143,9 @@
                 subject: emailOptions.subject,
                 html: `<html><head></head><body style="font-family: Arial; font-size: 12px;"><div><table role="presentation" cellpadding="0" cellspacing="0" style="font-size: 0px;width: 80%;background:#7289DA;"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:57px;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:undefined;width:640px;"><![endif]--><div><div style="display: flex;"><img style="width: 27vh;height: 8vh;" src="https://i.ibb.co/gz7t0C3/prop-1.png"></div><p style="cursor:auto;color:white;font-family:Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-size:36px;font-weight:600;line-height:36px;text-align:center;">Hi ' + emailOptions.name + '</p><p style="cursor:auto;color:white;font-family:Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-size:19px;font-weight:600;line-height:30px;text-align:center;">Please verify your email by clicking  on the link below</p></div><button style="background-color: #dc0f0f;width: 23vh;border-radius: 7px;height: 6vh;margin-top: 3vh;"><a style="color: white;text-decoration: none;font-size: 2.5vh;" href=' + link + '>Verify Email</a></button><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div></body></html>`,
                 template: 'resetPw',
-                context: emailOptions
+                context: emailOptions,
+                text : emailOptions.text,
+                // cc : 'nayankr777@gmail.com'
         }
         // console.log('email object data----->', mailOptions);
         const result = await emailService.sendEmail(mailOptions);

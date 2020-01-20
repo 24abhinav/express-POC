@@ -6,10 +6,7 @@
         pass: process.env.EMIAL_PASSWORD
     }
     const smtpConfig = {
-        service : 'gamil',
-        host: 'smtp.gmail.com',
-        port: 465,
-        // secure: true, // use SSL
+        service : 'gmail',
         auth: gmailCredental
     };
 
@@ -17,26 +14,20 @@
 
     sendEmail = (mailOptions) => {
         return new Promise(async (res, rej) => {
-            // const mailOptions = {
-            //     from: emailDetails.user,
-            //     to: userDetails.email,
-            //     subject: {emailDetails},
-            //     html: {emailDetails}
-            // }
 
-            // mailOptions.from = gmailCredental.user;
-            // const result = await send(mailOptions);
-            // result === null ? res(result) : res(result);
+            mailOptions.from = gmailCredental.user;
+            const result = await send(mailOptions);
+            result === null ? res(result) : res(result);
 
-            transpoter.verify((err, verify) => {
-                if(err) {
-                    console.log('confir is not correct-->', err)
-                    res(null)
-                } else {
-                    console.log('your config is correct--->', verify);
-                    res();
-                }
-            });
+            // transpoter.verify((err, verify) => {
+            //     if(err) {
+            //         console.log('confir is not correct-->', err)
+            //         res(null)
+            //     } else {
+            //         console.log('your config is correct--->', verify);
+            //         res();
+            //     }
+            // });
         });
     },
 
