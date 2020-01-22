@@ -21,40 +21,30 @@
     });
 
     app.post('/update/userDetails', (req, res) => {
-        User.updateUserDetails(req.body, (err, result) => {
-            (err) ? res.send(err) : res.json(result);
-        });
+        User.updateUserDetails(req.body, res);
     });
 
     app.post('/user/details', (req, res) => {
-        User.getUserDetailsByEmail(req.body, (err, users) => {
-            (err) ? res.send(err) : res.json(users);
-        });
+        User.getUserDetailsByEmail(req.body, res);
     });
 
     app.get('/getAll/users', (req, res) => {
-       User.getUsers(req, (err, users) => {
-        (err) ? res.send(err) : res.json(users);
-       });
+       User.getUsers(res);
     });
 
     app.post('/sendEmailActivationLink', (req, res) => {
-        User.sendEmailActivationLink(req.body, (err, result) => {
-            (err) ? res.send(err) : res.json(result);
-        });
+        User.sendEmailActivationLink(req.body, res);
     });
 
     // ------------------------------- PROPERTY MODEL -------------------------------------------
 
     app.post('/add/property', (req, res) => {
         console.log(req.body);
-        Property.addProperty(req.body, (err, result) => {
-            (err) ? res.send(err) : res.json(result);
-        });
+        Property.addProperty(req.body, res);
     });
-
-    app.listen(8080, () => {
-        console.log('running on port 8080');
+    const serverPort = process.env.PORT;
+    app.listen(serverPort, () => {
+        console.log(`Express server is running on port ${serverPort}`);
     });
 
 }());

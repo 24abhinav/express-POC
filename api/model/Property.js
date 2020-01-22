@@ -1,11 +1,15 @@
 (function() {
-    const DB = require('../services/databse');
+    const databse = require('../services/databse');
+    const internalServerError = {message: 'Internal server Error'};
 
-
-    addProperty = (propertyData, callback) => {
+    addProperty = (propertyData, response) => {
         return new Promise(async (res, rej) => {
-            let insertData = await DB.inserDataToTable('property', propertyData);
-            console.log(insertData);
+            let insertData = await databse.inserDataToTable('property', propertyData);
+            if (insertData === null) {
+                response.status(500).send(internalServerError);
+            } else {
+                response.status(200).send({message: 'property Added successfully'});
+            }
         });
     }
 
