@@ -1,6 +1,7 @@
 (function() {
     require('dotenv').config();
     const mySql = require('mysql');
+    const moment = require('moment');
     const DB_HOST = process.env.DB_HOST;
     const DB_USER = process.env.DB_USER;
     const DB_PASS = process.env.DB_PASS;
@@ -23,6 +24,9 @@
 
     inserDataToTable = async (tableName, tableData) => {
        return new Promise(async (res, rej) => {
+        const date = new Date();
+        tableData.createdAt = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
+        tableData.updatedAt = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
         const query = await makeInsertQuery(tableName, tableData);
         const result = await queryRunner(query);
         res(result);
@@ -45,6 +49,8 @@
     updateTableData = async (tableName, tableData, identifier, identifierValue) => {
         return new Promise(async(res, rej) => {
             let updateData = '';
+            const date = new Date();
+            tableData.updatedAt = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
             for (const key in tableData) {
                 if (tableData.hasOwnProperty(key)) {
                     const element = tableData[key];
@@ -91,9 +97,9 @@
     },
     checkDuplicate = async (tableName, idetifier, idetifierValue) => {
         return new Promise(async (res, rej) => {
-            const checkDuplicate = await fetchDataFromTable(tableName, `${idetifier} = '${idetifierValue}'`);
-            if(checkDuplicate.length !== 0) {
-                res(true);
+            const tableData = await fetchDataFromTable(tableName, `${idetifier} = '${idetifierValue}'`);
+            if(tableData.length !== 0) {
+                res(tableData);
             } else {
                 res(false);
             }
@@ -106,4 +112,4 @@
         updateTableData,
         checkDuplicate
     }
-}())
+}());

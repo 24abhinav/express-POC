@@ -1,57 +1,45 @@
 (function() {
+
     const tokenService = require('../services/token');
     const database = require('../services/databse');
     const bcryptService = require('../services/bcrypt');
     const emailService = require('../services/email');
-    const internalServerError = { status: 500, message: 'internal server error'}
+    const internalServerError = { status: 500, message: 'Internal server error'}
 
 
-    userSignUp = async (data, callback) => {
+    userSignUp = async (data, res) => {
         const checkDuplicate = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
         if(checkDuplicate) { // true means data found and false means data not found
-            callback({
-                status: 409,
-                message: 'User already exist'
-            });
+            res.status(400).send('User already exist');
             return;
         }
 
         const hashedPassword = await bcryptService.encryptPassword(data.password);
         if(hashedPassword === null) {
-            callback(internalServerError);
+            res.status(500).send('Internal server error');
             return;
         }
         delete data.password;
         data.password = hashedPassword
         const inserData = await database.inserDataToTable('User', data);
         if(inserData === null) {
-            callback(internalServerError);
-            return;
+            res.status(500).send('Internal server error');
         } else {
-            callback(null,{
-                status: 200,
-                message: 'SignUp successfull'
-            });
+            res.status(200).send('SignUp successfull');
         }
     }
 
-    userLogin = async (data, callback) => {
+    userLogin = async (data, res) => {
         const userData = await database.fetchDataFromTable('User', `email = '${data.email}'`);
         if(userData.length === 0) {
-            callback({
-                status: 400,
-                message: 'email is not registered'
-            });
+            res.status(400).send('email/password incorrect');
             return;
         }
         // console.log(userData);
         // console.log(data);
         const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
         if(checkPassword === false) {
-            callback({
-                status: 400,
-                message: 'email/password incorrect'
-            })
+            res.status(400).send('email/password incorrect');
             return;
         }
         const token = await tokenService.createToken({
@@ -59,29 +47,28 @@
             mobile : {userData},
             email: {userData}
         });
-
-        callback(null, {
-            status: 200,
-            message: 'Login successfull',
-            token
-        });
+        res.status(200).send('Login successfull');
     },
 
-    updatePassword = async (data, callback) => {
+    updatePassword = async (data, res) => {
         const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
         if(!userData) {   // true means data found and false means data not found
-            callback({
-                status: 404,
-                message: 'Email is not register with us!'
-            });
+            res.status(404).send('Email is not register with us!');
+            return;
+        }
+        // console.log('userdata---> ', userData);
+        const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
+        if(!checkPassword) {
+            res.status(400).send('Old password is incorrect');
             return;
         }
         data.password = await bcryptService.encryptPassword(data.password);
-        const updateStatus = await database.updateTableData('User', data, 'email', data.email);
-        if(updateStatus === null) {
-            callback(internalServerError);
+        const updateData = await database.updateTableData('User', data, 'email', data.email);
+        if(updateData === null) {
+            res.status(500).send('Internal Server error');
         } else {
-            callback(null, updateStatus);
+            res.status(200).send({message: 'password Update successfully'});
+            // callback(null, updateStatus);
         }
     },
 
@@ -115,6 +102,7 @@
             callback(internalServerError);
         }
     },
+
     getUserDetailsByEmail = async (data, callback) => {
         const existance = await database.checkDuplicate('User', 'email', data.email);
         if(!existance) {
@@ -135,19 +123,19 @@
             callback(internalServerError);
         }
     },
+
     sendEmailActivationLink = async (emailOptions, callback) => {
         link = 'dgndngjkngbjgfnbhh' // make a link
+
         const mailOptions = {
                 from: '',
                 to: emailOptions.email,
                 subject: emailOptions.subject,
-                html: `<html><head></head><body style="font-family: Arial; font-size: 12px;"><div><table role="presentation" cellpadding="0" cellspacing="0" style="font-size: 0px;width: 80%;background:#7289DA;"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:57px;"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:undefined;width:640px;"><![endif]--><div><div style="display: flex;"><img style="width: 27vh;height: 8vh;" src="https://i.ibb.co/gz7t0C3/prop-1.png"></div><p style="cursor:auto;color:white;font-family:Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-size:36px;font-weight:600;line-height:36px;text-align:center;">Hi ' + emailOptions.name + '</p><p style="cursor:auto;color:white;font-family:Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-size:19px;font-weight:600;line-height:30px;text-align:center;">Please verify your email by clicking  on the link below</p></div><button style="background-color: #dc0f0f;width: 23vh;border-radius: 7px;height: 6vh;margin-top: 3vh;"><a style="color: white;text-decoration: none;font-size: 2.5vh;" href=' + link + '>Verify Email</a></button><!--[if mso | IE]></td></tr></table><![endif]--></td></tr></tbody></table></div></body></html>`,
-                template: 'resetPw',
+                // html: 'veryvicationLink',
                 context: emailOptions,
                 text : emailOptions.text,
-                // cc : 'nayankr777@gmail.com'
+                cc : 'abhinav.a@mantralabsglobal.com'
         }
-        // console.log('email object data----->', mailOptions);
         const result = await emailService.sendEmail(mailOptions);
         if(result === null) {
             callback({
@@ -161,7 +149,6 @@
             });
         }
     },
-
 
     module.exports = {
         userLogin,

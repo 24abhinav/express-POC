@@ -14,8 +14,12 @@
         })
     },
     passwordCompare = (encryptPassword, password) => {
+        console.log(encryptPassword)
+        console.log(password)
         return new Promise((res, rej) => {
             bcrypt.compare(password, encryptPassword, (err, result) => {
+                // console.log('result--->', result);
+                // console.log('error--->', err);
                 res(result);
             });
         });
