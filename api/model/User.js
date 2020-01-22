@@ -13,7 +13,7 @@
             response.status(400).send({message: 'User already exist'});
             return;
         }
-
+ 
         const hashedPassword = await bcryptService.encryptPassword(data.password);
         if(hashedPassword === null) {
             response.status(500).send(internalServerError);

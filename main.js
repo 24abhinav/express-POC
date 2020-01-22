@@ -39,9 +39,14 @@
     // ------------------------------- PROPERTY MODEL -------------------------------------------
 
     app.post('/add/property', (req, res) => {
-        console.log(req.body);
         Property.addProperty(req.body, res);
     });
+
+    app.post('/update/property/details', (req, res) => {
+        Property.updatePropertyDetails(req.body, res);
+    });
+
+    // ------------------------------- SERVER SETUP  ---------------------------------------------
     const serverPort = process.env.PORT;
     app.listen(serverPort, () => {
         console.log(`Express server is running on port ${serverPort}`);
