@@ -16,15 +16,20 @@
                 return false;
             } 
         } else {
-            response.status(401).send({message: 'Token is missing'});
+            response.status(403).send({message: 'Token is missing'});
             return false;
         }
         // console.log('token is valid');
         return true;
+    },
+    userLogout = async (response) => {
+        await response.clearCookie('S');
+        response.status(200).send({message: 'Logout successfull'});
     }
 
     module.exports = {
         setCookie,
-        tokenAuthorization
+        tokenAuthorization,
+        userLogout
     }
 }());

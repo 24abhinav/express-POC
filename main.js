@@ -47,6 +47,10 @@
         User.sendEmailActivationLink(req.body, res);
     });
 
+    app.get('/logout', (req, res) => {
+        cookieService.userLogout(res);
+    });
+
     // ------------------------------------------- PROPERTY MODEL -------------------------------------------
 
     app.post('/add/property', async (req, res) => {
