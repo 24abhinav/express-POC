@@ -42,12 +42,12 @@
             response.status(400).send('email/password incorrect');
             return;
         }
-        const token = await tokenService.createToken({
+        await tokenService.createToken({
             name: {userData},
             mobile : {userData},
             email: {userData}
-        });
-        response.status(200).send('Login successfull');
+        }, response);
+        response.status(200).send({message: 'Login successfull'});
     },
 
     updatePassword = async (data, response) => {

@@ -17,7 +17,7 @@
         } else {
             response.status(200).send({message: 'pproperty details updated successfully', updatedDetails})
         }
-    }
+    },
 
     module.exports = {
         addProperty,

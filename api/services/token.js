@@ -3,9 +3,11 @@
     require('dotenv').config();
     tokenSecret = process.env.JWT_SECRET;
 
-    createToken = (tokenObject) => {
+    createToken = (tokenObject, response) => {
         return new Promise((res, rej) => { 
-            res(jwt.sign(tokenObject, tokenSecret));
+            const token = jwt.sign(tokenObject, tokenSecret, {expiresIn: '1h'})
+            response.cookie('S', token);
+            res();
         });
     },
 
@@ -13,14 +15,9 @@
         return new Promise((res, rej) => {
             jwt.verify(token, tokenSecret, (err, result) => {
                 if(err) {
-                    res({
-                        status: 401,
-                        message: 'Your Session has been expired! Please Login again'
-                    });
+                    res(false);
                 } else {
-                    res(null, {
-                        result
-                    });
+                    res(true);
                 }
             });
         });
