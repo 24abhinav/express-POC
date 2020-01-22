@@ -10,7 +10,7 @@
     app.use(express.json());
     app.use(cookieParser());
 
-    // -------------------------------  USER MODEL -------------------------------------------
+    // -------------------------------------------  USER MODEL -------------------------------------------
     app.post('/signup', (req, res) => {
         User.userSignUp(req.body, res);
     });
@@ -47,7 +47,7 @@
         User.sendEmailActivationLink(req.body, res);
     });
 
-    // ------------------------------- PROPERTY MODEL -------------------------------------------
+    // ------------------------------------------- PROPERTY MODEL -------------------------------------------
 
     app.post('/add/property', async (req, res) => {
         const tokenVerification = await cookieService.tokenAuthorization(req, res);
@@ -67,7 +67,7 @@
             Property.fetchPropertyDetails(req.body, res);
     });
 
-    // ------------------------------- SERVER SETUP  ---------------------------------------------
+    // ------------------------------------------- SERVER SETUP  -------------------------------------------
     const serverPort = process.env.PORT;
     app.listen(serverPort, () => {
         console.log(`Express server is running on port ${serverPort}`);
