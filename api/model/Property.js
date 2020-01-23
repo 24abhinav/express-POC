@@ -29,6 +29,8 @@
         const state = await databse.fetchDataFromTable('states', `id = ${propertyDetails[0].state}`);
         const city = await databse.fetchDataFromTable('cities', `id = ${propertyDetails[0].city}`);
         const images = await databse.fetchDataFromTable('propertyimages', `propertyId = ${propertyId}`);
+        const tenantId = await databse.fetchDataFromTable('propertytenantassociation', `propertyId = ${propertyId}`);
+        const tenantDetails = await databse.fetchDataFromTable('tenantdetails', `id = ${tenantId[0].tenantId}`);
 
 
         propertyDetails[0].pricingModel = pricingModel[0];
@@ -36,6 +38,7 @@
         propertyDetails[0].state = state[0];
         propertyDetails[0].city = city[0];
         propertyDetails[0].images = images;
+        propertyDetails[0].tenantDetails = tenantDetails[0];
 
         // console.log(propertyDetails);
         if(propertyDetails === null) {
