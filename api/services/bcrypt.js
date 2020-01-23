@@ -23,6 +23,10 @@
                 res(result);
             });
         });
-    }
-    module.exports = {encryptPassword, passwordCompare}
+    },
+
+    module.exports = {
+        encryptPassword,
+        passwordCompare,
+    };
 }());

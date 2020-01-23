@@ -49,6 +49,6 @@
     },
 
     module.exports = {
-        sendEmail
+        sendEmail,
     };
 }());

@@ -4,7 +4,7 @@
     const database = require('../services/databse');
     const bcryptService = require('../services/bcrypt');
     const emailService = require('../services/email');
-    const internalServerError = { message: 'Internal server error'}
+    const internalServerError = { message: 'Internal server error'};
 
 
     userSignUp = async (data, response) => {
@@ -139,6 +139,6 @@
         updatePassword,
         updateUserDetails,
         getUserDetailsByEmail,
-        sendEmailActivationLink
-    }
-}())
+        sendEmailActivationLink,
+    };
+}());

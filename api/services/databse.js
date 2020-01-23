@@ -116,8 +116,8 @@
         fetchDataFromTable,
         updateTableData,
         checkDuplicate,
-        queryRunner
-    }
+        queryRunner,
+    };
 }());
 
 

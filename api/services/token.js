@@ -29,6 +29,6 @@
 
     module.exports = {
         createToken,
-        verifyToken
-    }
+        verifyToken,
+    };
 }());

@@ -22,14 +22,15 @@
         // console.log('token is valid');
         return true;
     },
+
     userLogout = async (response) => {
         await response.clearCookie('S');
         response.status(200).send({message: 'Logout successfull'});
-    }
+    },
 
     module.exports = {
         setCookie,
         tokenAuthorization,
-        userLogout
-    }
+        userLogout,
+    };
 }());

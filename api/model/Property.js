@@ -10,6 +10,7 @@
             response.status(200).send({message: 'property Added successfully'});
         }
     },
+
     updatePropertyDetails = async (propertyDetails, response) => {
         let updatedDetails = await databse.updateTableData('property', propertyDetails, 'id', propertyDetails.id);
         if (updatedDetails === null) {
@@ -47,6 +48,6 @@
     module.exports = {
         addProperty,
         updatePropertyDetails,
-        fetchPropertyDetails
-    }
-}()); 
+        fetchPropertyDetails,
+    };
+}());
