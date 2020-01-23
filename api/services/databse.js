@@ -64,6 +64,12 @@
         });
     },
 
+    deleteRecord = async (tableName, condition) => {
+        const query = `DELETE FROM ${tableName} WHERE ${condition}`;
+        const status = await queryRunner(query);
+        Promise.resolve(status);
+    },
+
     queryRunner = (query) => {
         console.log('Executing query --> ', query);
         return new Promise((res, rej) => {
@@ -116,6 +122,7 @@
         updateTableData,
         checkDuplicate,
         queryRunner,
+        deleteRecord
     };
 }());
 

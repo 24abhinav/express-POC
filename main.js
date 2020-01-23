@@ -1,5 +1,5 @@
 (function() {
-    const serverPort = process.env.PORT;
+
     const express =  require('express');
     const app = express();
     const User = require('./api/model/User');
@@ -101,7 +101,14 @@
             tenantDetails.propertyTenantAssociation(req.body, res);
     });
 
+    app.post('/delete/tenant/mapping', async (req, res) => {
+        const tokenVerification = await cookieService.tokenAuthorization(req, res);
+        if(tokenVerification)
+            tenantDetails.deletePropertyTenantAssociation(req.body, res);
+    });
+
     // ------------------------------------------- SERVER SETUP  -------------------------------------------
+    const serverPort = process.env.PORT;
     app.listen(serverPort, () => {
         console.log(`Express server is running on port ${serverPort}`);
     });

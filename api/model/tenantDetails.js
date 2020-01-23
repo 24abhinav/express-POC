@@ -28,9 +28,26 @@
             } 
         }
     },
+    deletePropertyTenantAssociation = async (data, response) => {
+        const condition = `tenantId = ${data.tenantId} and propertyId = ${data.propertyId}`;
+        const checkDuplicate = await database.fetchDataFromTable('propertytenantassociation', condition);
+        if(checkDuplicate === null) {
+            response.status(500).send(internalServerError);
+        } else if(checkDuplicate.length === 0) {
+            response.status(404).send({message: 'No mapping found!!'});
+        } else {
+            const mapping = await database.deleteRecord('propertytenantassociation', condition);
+            if(mapping === null) {
+                response.status(500).send(internalServerError);
+            } else {
+                response.status(200).send({message: 'Tenant Mapping removed successfullt'});
+            } 
+        }
+    },
 
     module.exports = {
         addTenant,
         propertyTenantAssociation,
+        deletePropertyTenantAssociation
     };
 }());
