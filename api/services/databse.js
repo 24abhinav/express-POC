@@ -106,10 +106,25 @@
         });
     },
 
+    // joinQuery = (tableName, joinTableName) => {
+    //     let query = `SELECT * FROM ${tableName}`;
+
+    // }
+
     module.exports = {
         inserDataToTable,
         fetchDataFromTable,
         updateTableData,
-        checkDuplicate
+        checkDuplicate,
+        queryRunner
     }
 }());
+
+
+//  join more than two tables
+
+// SELECT * FROM property 
+// INNER JOIN countries ON property.country = countries.id
+// INNER JOIN pricingmodel on property.pricingModel = pricingmodel.id 
+// INNER JOIN states on property.`state` = states.id
+// INNER JOIN cities on property.city = cities.id;

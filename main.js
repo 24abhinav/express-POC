@@ -5,6 +5,7 @@
     const Property = require('./api/model/Property');
     const cookieParser = require('cookie-parser');
     const cookieService = require('./api/services/cookie');
+    const pricingModel = require('./api/model/PricingModel');
 
     app.use(express.urlencoded());
     app.use(express.json());
@@ -57,7 +58,7 @@
         const tokenVerification = await cookieService.tokenAuthorization(req, res);
         if(tokenVerification)
             Property.addProperty(req.body, res);
-    });
+    }); 
 
     app.post('/update/property/details', async (req, res) => {
         const tokenVerification = await cookieService.tokenAuthorization(req, res);
@@ -68,7 +69,20 @@
     app.post('/fetch/property/details', async (req, res) => {
         const tokenVerification = await cookieService.tokenAuthorization(req, res);
         if(tokenVerification)
-            Property.fetchPropertyDetails(req.body, res);
+            Property.fetchPropertyDetails(req.body.id, res);
+    });
+    // ------------------------------------------- Pricing Model  -------------------------------------------
+
+    app.post('/add/pricingModel', async (req, res) => {
+        const tokenVerification = await cookieService.tokenAuthorization(req, res);
+        if(tokenVerification)
+            pricingModel.addPricingModel(req.body, res);
+    });
+
+    app.post('/update/pricingModel', async (req, res) => {
+        const tokenVerification = await cookieService.tokenAuthorization(req, res);
+        if(tokenVerification)
+            pricingModel.updatePringModelData(req.body, res);
     });
 
     // ------------------------------------------- SERVER SETUP  -------------------------------------------
