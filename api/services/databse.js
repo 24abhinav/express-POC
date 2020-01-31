@@ -78,8 +78,8 @@
                     res(null);
                     console.log('Error in query runner----->', err);
                 } else {
-                    res(result);
                     // console.log('result----->', result);
+                    res(result);
                 }
             });
         });
