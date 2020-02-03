@@ -20,7 +20,7 @@
             mailOptions.from = gmailCredental.user;
             console.log('mailOptions=====>', mailOptions);
             const result = await send(mailOptions);
-            result === null ? res(null) : res(result);
+            res(result);
 
             // transpoter.verify((err, verify) => {
             //     if(err) {
@@ -37,13 +37,7 @@
     send = (mailOptions) => {
         return new Promise(async (res, rej) => {
             transpoter.sendMail(mailOptions, (err, result) => {
-                if (err) {
-                    console.log('error -->', err);
-                    res(null);
-                } else {
-                    console.log('email Sent successfully-->', result);
-                    res(result);
-                }
+                res(result);
             });
         }); 
     },

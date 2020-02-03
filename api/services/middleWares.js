@@ -4,7 +4,7 @@
     tokenAuthorizer = () => {
         return async (request, response, next) => {
             const token = await request.cookies.S;
-            if (token !== undefined) {
+            if (token) {
                 const isTokenValid = await tokenService.verifyToken(token);
                 if(!isTokenValid) {
                     response.status(401).send({message: 'Your Session has been expired! Please Login again'});

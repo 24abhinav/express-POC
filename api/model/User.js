@@ -15,11 +15,11 @@
         }
  
         const hashedPassword = await bcryptService.encryptPassword(data.password);
-        if(hashedPassword === null) {
+        if(!hashedPassword) {
             response.status(500).send(internalServerError);
             return;
         }
-        delete data.password;
+        data.password = undefined;
         data.password = hashedPassword
         const inserData = await database.inserDataToTable('User', data);
         if(inserData === null) {

@@ -1,4 +1,5 @@
 (function() {
+
     const databse = require('../services/databse');
     const internalServerError = {message: 'Internal server Error'};
 
@@ -53,4 +54,5 @@
         updatePropertyDetails,
         fetchPropertyDetails,
     };
+
 }());

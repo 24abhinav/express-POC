@@ -9,7 +9,7 @@
         const token = await request.cookies.S;
 
         // console.log('token is here--------------->       ', token);
-        if (token !== undefined) {
+        if (token) {
             const isTokenValid = await tokenService.verifyToken(token);
             if(!isTokenValid) {
                 response.status(401).send({message: 'Your Session has been expired! Please Login again'});

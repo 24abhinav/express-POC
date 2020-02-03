@@ -24,8 +24,9 @@
     inserDataToTable = async (tableName, tableData) => {
        return new Promise(async (res, rej) => {
         const date = new Date();
-        tableData.createdAt = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
-        tableData.updatedAt = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
+        const todayDate = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
+        tableData.createdAt = todayDate;
+        tableData.updatedAt = todayDate;
         const query = await makeInsertQuery(tableName, tableData);
         const result = await queryRunner(query);
         res(result);
@@ -35,7 +36,7 @@
     fetchDataFromTable = async (tableName, condition) => {
         return new Promise(async (res, rej) => {
             let query = null;
-            if(condition !== null) {
+            if(condition) {
                 query = `SELECT * FROM ${tableName} WHERE ${condition}`
             } else {
                 query = `SELECT * FROM ${tableName}`
@@ -74,13 +75,7 @@
         console.log('Executing query --> ', query);
         return new Promise((res, rej) => {
             connection.query(query, (err, result) => {
-                if(err) {
-                    res(null);
-                    console.log('Error in query runner----->', err);
-                } else {
-                    // console.log('result----->', result);
-                    res(result);
-                }
+                res(result);
             });
         });
     },

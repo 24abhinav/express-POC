@@ -14,11 +14,7 @@
     verifyToken = (token) => {
         return new Promise((res, rej) => {
             jwt.verify(token, tokenSecret, (err, result) => {
-                if(err) {
-                    res(false);
-                } else {
-                    res(true);
-                }
+                res(result);
             });
         });
     },
