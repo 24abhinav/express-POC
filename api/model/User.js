@@ -35,7 +35,7 @@
             response.status(400).send('email/password incorrect');
             return;
         }
-        // console.log(userData);
+        // console.log('user data',userData);
         // console.log(data);
         const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
         if(checkPassword === false) {
@@ -43,14 +43,19 @@
             return;
         }
         await tokenService.createToken({
-            name: {userData},
-            mobile : {userData},
-            email: {userData}
+            name: userData[0].name,
+            mobile : userData[0].mobile,
+            email: userData[0].email
         }, response);
         response.status(200).send({message: 'Login successfull'});
     },
 
     updatePassword = async (data, response) => {
+        if (!data.email || !data.password || !data.newPassword) {
+            response.status(404).send({message: 'Parameter is missing'});
+            return;
+        }
+
         const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
         if(!userData) {   // true means data found and false means data not found
             response.status(404).send({message: 'Email is not register with us!'});
@@ -62,7 +67,9 @@
             response.status(400).send({message: 'Old password is incorrect'});
             return;
         }
-        data.password = await bcryptService.encryptPassword(data.password);
+        // console.log('password before--------->', data.password);
+        data.password = await bcryptService.encryptPassword(data.newPassword);
+        delete data.newPassword;
         const updateData = await database.updateTableData('User', data, 'email', data.email);
         if(updateData === null) {
             response.status(500).send(internalServerError);
