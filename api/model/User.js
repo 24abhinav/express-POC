@@ -32,14 +32,14 @@
     userLogin = async (data, response) => {
         const userData = await database.fetchDataFromTable('User', `email = '${data.email}'`);
         if(userData.length === 0) {
-            response.status(400).send('email/password incorrect');
+            response.status(400).send({message: 'email or password incorrect'});
             return;
         }
         // console.log('user data',userData);
         // console.log(data);
         const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
         if(checkPassword === false) {
-            response.status(400).send('email/password incorrect');
+            response.status(400).send({message: 'email or password incorrect'});
             return;
         }
         await tokenService.createToken({
