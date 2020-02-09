@@ -10,7 +10,7 @@
     userSignUp = async (data, response) => {
         const checkDuplicate = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
         if(checkDuplicate) { // true means data found and false means data not found
-            response.status(400).send({message: 'User already exist'});
+            response.status(409).send({message: 'User already exist'});
             return;
         }
  
@@ -117,14 +117,16 @@
         }
     },
 
-    sendEmailActivationLink = async (emailOptions, response) => {
-        link = 'dgndngjkngbjgfnbhh' // make a link
-
+    sendEmailActivationLink = async (emailOptions, request, response) => {
+        link = `useremailverificationsddsbbds${request.cookies.S}_hgvghvghcgfcgf`;
+        console.log(link);
         const mailOptions = {
                 from: '',
                 to: emailOptions.email,
                 subject: emailOptions.subject,
-                // html: 'veryvicationLink',
+                html: `<a href = '${link}' style = 
+                "border: none; padding: 10px; text-align: center; font-size: 15px; background: red; color: white;"> 
+                Click </a> `,
                 context: emailOptions,
                 text : emailOptions.text,
                 // cc : 'abhinav.a@mantralabsglobal.com'

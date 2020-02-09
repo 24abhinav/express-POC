@@ -41,7 +41,7 @@
     });
 
     app.post('/sendEmailActivationLink', (req, res) => {
-        User.sendEmailActivationLink(req.body, res);
+        User.sendEmailActivationLink(req.body, req, res);
     });
 
     app.get('/logout', (req, res) => {
