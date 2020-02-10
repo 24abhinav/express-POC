@@ -8,11 +8,24 @@
     const pricingModel = require('./api/model/PricingModel');
     const tenantDetails = require('./api/model/tenantDetails');
     const middleWares = require('./api/services/middleWares');
+    const cors = require('cors');
     
     const app = express();
     app.use(express.urlencoded());
     app.use(express.json());
     app.use(cookieParser());
+    const allowedOrigins = ['http://localhost:8080'];
+    app.use(cors({
+        origin: (origin, callback) => {
+            if(!origin) {
+                callback(null, true);
+            } else if(allowedOrigins.indexOf(origin) === -1) {
+                callback(new Error('The CORS policy for this origin is not allowed'), false);
+            } else {
+                callback(null, true);
+            }
+        }
+    }));
 
 
     // -------------------------------------------  USER MODEL -------------------------------------------
