@@ -33,12 +33,11 @@
         const tenantId = await databse.fetchDataFromTable('propertytenantassociation', `propertyId = ${propertyId}`);
         const tenantDetails = await databse.fetchDataFromTable('tenantdetails', `id = ${tenantId[0].tenantId}`);
 
-
         propertyDetails[0].pricingModel = pricingModel[0];
         propertyDetails[0].country = country[0];
         propertyDetails[0].state = state[0];
         propertyDetails[0].city = city[0];
-        propertyDetails[0].images = images;
+        propertyDetails[0].images = images[0];
         propertyDetails[0].tenantDetails = tenantDetails[0];
 
         // console.log(propertyDetails);

@@ -1,0 +1,78 @@
+  // ------------------------ USER MODEL -----------------------
+  
+  signUp ---------------COMPLETED
+  signIn ---------------COMPLETED
+  adminSignIn
+  emailVerification
+  verifyToken
+  forgotPassword
+  forgotPasswordForAdmin
+  updatePassword ---------------COMPLETED
+  resetPassword
+  addUserInvestmentDetails
+  updateUserInvestmentDetails
+  updateCurrentValueOfPropertyByUser
+  fetchAllUserInvestmentDetails
+  fetchUserInvestmentDetailsByUserId
+  addMonthlyRentForInvestedProperty
+  fetchMonthlyRentForInvestedPropertyByUserId
+  fetchAllUsers ---------------COMPLETED
+  fetchAllInvestors
+  fetchUserDetails ---------------COMPLETED
+  updateUserDetails ---------------COMPLETED
+  checkEmail
+  sendEmailForFindBuyer
+  changeInvesterStatus
+
+  // ------------------------ PROPERTY MODEL -----------------------
+
+  addPropertyDetails ---------------COMPLETED
+  updatePropertyDetails ---------------COMPLETED
+  deleteProperty
+  changeStatus
+  addFeaturedProperty
+  getFeaturedProperties
+  listProperties ---------------COMPLETED
+  listProperty ---------------COMPLETED
+  addTenants ---------------COMPLETED
+  updateTenants
+  fetchTenants
+  fetchTenantById
+  changeTenantStatus
+  fetchPropertyListByTenentId
+  fetchAmenities
+  addPropertyTenantMapping ---------------COMPLETED
+  deletePropertyTenantMapping ---------------COMPLETED
+  fetchTenantDetailsByPropertyId
+  addAmenity
+  addPricingModel ---------------COMPLETED
+  fetchPricingModel
+  updatePricingModel ---------------COMPLETED
+  calculateLockInPeriod
+  addPropertyBookingDetails
+  fetchAllPropertyBookingDetails
+  deletePropertyBookingDetails
+
+  // ------------------------ ENQUIRY MODEL -----------------------
+
+  addEnquiry
+  getEnquiries
+  deleteEnquiry
+
+  // ------------------------ ADRESS MODEL -----------------------
+
+  fetchCountriesList
+  fetchStateListByCountryId
+  fetchCitiesListByStateId
+
+  // ------------------------ CONTACT MODEL -----------------------
+
+  addContact
+  fetchContact
+  deleteContact
+
+  // ------------------------ AWS MODEL -----------------------
+
+  uploadImage
+  deleteImage
+  sendSms
