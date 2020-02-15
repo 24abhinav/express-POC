@@ -7,6 +7,10 @@
     const cookieService = require('./api/services/cookie');
     const pricingModel = require('./api/model/PricingModel');
     const tenantDetails = require('./api/model/tenantDetails');
+    const countryData = require('./api/model/countryData');
+    const contact = require('./api/model/Contact');
+    const propertyBooking = require('./api/model/propertyEnquiry');
+
     const middleWares = require('./api/services/middleWares');
     const cors = require('cors');
     
@@ -63,6 +67,20 @@
 
     // ------------------------------------------- PROPERTY MODEL -------------------------------------------
 
+    app.get('/fetch/all/country', (req, res) => {
+        countryData.fetchCountryList(req, res);
+    });
+
+    app.get('/fetch/all/states/:countryId', (req, res) => {
+        countryData.fetchStateList(req.params.countryId, res);
+    });
+
+    app.get('/fetch/all/city/:stateId', (req, res) => {
+        countryData.fetchCityList(req.params.stateId, res);
+    });
+
+    // ------------------------------------------- PROPERTY MODEL -------------------------------------------
+
     app.post('/add/property', middleWares.tokenAuthorizer(), async (req, res) => {
         Property.addProperty(req.body, res);
     }); 
@@ -74,6 +92,35 @@
     app.get('/fetch/property/details', middleWares.tokenAuthorizer(), async (req, res) => {
         Property.fetchPropertyDetails(req, res);
     });
+
+    // ------------------------------------------- Contact Model  -------------------------------------------
+
+    app.post('/add/contact/details', (req, res) => {
+        contact.addContactDetails(req.body, res);
+    });
+
+    app.get('/fetch/contact', (req, res) => {  // Add Admin Token Authorizer
+        contact.fetchContactDetails(req, res);
+    });
+
+    app.delete('/delete/contact/:id', (req, res) => {  // Add Admin Token Authorizer
+        contact.deleteContactDetails(req.params.id, res);
+    });
+
+    // ------------------------------------------- Property Booking Model  -------------------------------------------
+
+    app.post('/add/booking/details', middleWares.tokenAuthorizer(),  (req, res) => {
+        propertyBooking.addBookingDetails(req.body, res);
+    });
+
+    app.get('/fetch/booking/details', (req, res) => {  // Add Admin Token Authorizer
+        propertyBooking.fetchBookingDetails(req, res);
+    });
+
+    app.delete('/delete/booking/details/:id', (req, res) => {  // Add Admin Token Authorizer
+        propertyBooking.deleteBookingDetails(req.params.id, res);
+    });
+
     // ------------------------------------------- Pricing Model  -------------------------------------------
 
     app.post('/add/pricingModel',middleWares.tokenAuthorizer(), async (req, res) => {

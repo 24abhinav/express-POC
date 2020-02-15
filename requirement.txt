@@ -55,21 +55,21 @@
 
   // ------------------------ ENQUIRY MODEL -----------------------
 
-  addEnquiry
-  getEnquiries
-  deleteEnquiry
+  addEnquiry  ---------------COMPLETED
+  getEnquiries  ---------------COMPLETED
+  deleteEnquiry  ---------------COMPLETED
 
-  // ------------------------ ADRESS MODEL -----------------------
+  // ------------------------ Country MODEL -----------------------
 
-  fetchCountriesList
-  fetchStateListByCountryId
-  fetchCitiesListByStateId
+  fetchCountriesList  ---------------COMPLETED
+  fetchStateListByCountryId  ---------------COMPLETED
+  fetchCitiesListByStateId  ---------------COMPLETED
 
   // ------------------------ CONTACT MODEL -----------------------
 
-  addContact
-  fetchContact
-  deleteContact
+  addContact  ---------------COMPLETED
+  fetchContact  ---------------COMPLETED
+  deleteContact  ---------------COMPLETED
 
   // ------------------------ AWS MODEL -----------------------
 
