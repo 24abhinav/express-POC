@@ -37,16 +37,16 @@
         User.userLogin(req.body, res);
     });
 
-    app.post('/update/password', middleWares.tokenAuthorizer() , async (req, res, next) => {
+    app.patch('/update/password', middleWares.tokenAuthorizer() , async (req, res, next) => {
         User.updatePassword(req.body, res);
     });
 
-    app.post('/update/userDetails',middleWares.tokenAuthorizer(), async (req, res) => {
+    app.patch('/update/userDetails',middleWares.tokenAuthorizer(), async (req, res) => {
         User.updateUserDetails(req.body, res);
     });
 
-    app.post('/user/details', middleWares.tokenAuthorizer(), async (req, res) => {
-        User.getUserDetailsByEmail(req.body, res);
+    app.get('/user/details', middleWares.tokenAuthorizer(), async (req, res) => {
+        User.getUserDetails(req, res);
     });
 
     app.get('/getAll/users', middleWares.tokenAuthorizer(), async (req, res) => {
@@ -67,12 +67,12 @@
         Property.addProperty(req.body, res);
     }); 
 
-    app.post('/update/property/details',middleWares.tokenAuthorizer(),  async (req, res) => {
+    app.patch('/update/property/details',middleWares.tokenAuthorizer(),  async (req, res) => {
         Property.updatePropertyDetails(req.body, res);
     });
 
-    app.post('/fetch/property/details', middleWares.tokenAuthorizer(), async (req, res) => {
-        Property.fetchPropertyDetails(req.body.id, res);
+    app.get('/fetch/property/details', middleWares.tokenAuthorizer(), async (req, res) => {
+        Property.fetchPropertyDetails(req, res);
     });
     // ------------------------------------------- Pricing Model  -------------------------------------------
 
@@ -80,7 +80,7 @@
         pricingModel.addPricingModel(req.body, res);
     });
 
-    app.post('/update/pricingModel',middleWares.tokenAuthorizer(), async (req, res) => {
+    app.patch('/update/pricingModel',middleWares.tokenAuthorizer(), async (req, res) => {
         pricingModel.updatePringModelData(req.body, res);
     });
 
@@ -94,7 +94,7 @@
         tenantDetails.propertyTenantAssociation(req.body, res);
     });
 
-    app.post('/delete/tenant/mapping', middleWares.tokenAuthorizer(), async (req, res) => {
+    app.delete('/remove/tenant/mapping', middleWares.tokenAuthorizer(), async (req, res) => {
         tenantDetails.deletePropertyTenantAssociation(req.body, res);
     });
 

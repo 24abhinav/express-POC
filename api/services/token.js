@@ -22,9 +22,15 @@
     invalidateToken = (token) => {
         // jwt.decode
     },
+    decodeToken = async (token) => {
+        token = token.split(' ')[0];
+        const decodedData = await verifyToken(token);
+        return decodedData;
+    },
 
     module.exports = {
         createToken,
         verifyToken,
+        decodeToken,
     };
 }());

@@ -45,7 +45,8 @@
         await tokenService.createToken({
             name: userData[0].name,
             mobile : userData[0].mobile,
-            email: userData[0].email
+            email: userData[0].email,
+            userId: userData[0].id,
         }, response);
         response.status(200).send({message: 'Login successfull'});
     },
@@ -103,13 +104,14 @@
         }
     },
 
-    getUserDetailsByEmail = async (data, response) => {
-        const existance = await database.checkDuplicate('User', 'email', data.email);
+    getUserDetails = async (request, response) => {
+        const { userId } = await tokenService.decodeToken(request.cookies.S);
+        const existance = await database.checkDuplicate('User', 'id', userId);
         if(!existance) {
             response.status(400).send({message: 'User does not exists'})
             return;
         }
-        const users = await database.fetchDataFromTable('User', `email = '${data.email}'`);
+        const users = await database.fetchDataFromTable('User', `id = '${userId}'`);
         if(users) {
             response.status(200).send({message: 'User Details fetched successfully', userDetails : users[0]});
         } else {
@@ -147,7 +149,7 @@
         getUsers, 
         updatePassword,
         updateUserDetails,
-        getUserDetailsByEmail,
+        getUserDetails,
         sendEmailActivationLink,
     };
 }());
