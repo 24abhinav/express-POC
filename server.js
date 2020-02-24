@@ -13,24 +13,15 @@
 
     const middleWares = require('./api/services/middleWares');
     const cors = require('cors');
+    const adminPanel = require('./api/Admin Panel/router');
     
     const app = express();
     app.use(express.urlencoded());
     app.use(express.json());
     app.use(cookieParser());
-    const allowedOrigins = ['http://localhost:8080'];
-    app.use(cors({
-        origin: (origin, callback) => {
-            if(!origin) {
-                callback(null, true);
-            } else if(allowedOrigins.indexOf(origin) === -1) {
-                callback(new Error('The CORS policy for this origin is not allowed'), false);
-            } else {
-                callback(null, true);
-            }
-        }
-    }));
 
+    // For handling all request coming from admin panel
+    app.use('/admin', adminPanel);
 
     // -------------------------------------------  USER MODEL -------------------------------------------
     app.post('/signup', (req, res) => {
@@ -38,11 +29,16 @@
     });
 
     app.post('/signin', (req, res) => {
-        User.userLogin(req.body, res);
+        // False indicates that API is getting called for user
+        User.userLogin(req.body, false, res);
     });
 
     app.patch('/update/password', middleWares.tokenAuthorizer() , async (req, res, next) => {
         User.updatePassword(req.body, res);
+    });
+
+    app.post('/forgot/password', (req, res, next) => {
+        User.forgotPasssword(req.body, res);
     });
 
     app.patch('/update/userDetails',middleWares.tokenAuthorizer(), async (req, res) => {
@@ -145,10 +141,11 @@
         tenantDetails.deletePropertyTenantAssociation(req.body, res);
     });
 
+
     // ------------------------------------------- SERVER SETUP  -------------------------------------------
     const serverPort = process.env.PORT;
     app.listen(serverPort, () => {
-        console.log(`Express server is running on port ${serverPort}`);
+        // console.log(`Express server is running on port ${serverPort}`);
     });
 
     // ------------------------------------------- Error Handling  -------------------------------------------

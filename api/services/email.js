@@ -18,7 +18,6 @@
         return new Promise(async (res, rej) => {
 
             mailOptions.from = gmailCredental.user;
-            console.log('mailOptions=====>', mailOptions);
             const result = await send(mailOptions);
             res(result);
 

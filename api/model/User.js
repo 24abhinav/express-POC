@@ -4,6 +4,7 @@
     const database = require('../services/databse');
     const bcryptService = require('../services/bcrypt');
     const emailService = require('../services/email');
+    const emailTemplates = require('../../views/emailTemplates');
     const internalServerError = { message: 'Internal server error'};
 
 
@@ -29,14 +30,13 @@
         }
     },
 
-    userLogin = async (data, response) => {
+    userLogin = async (data, isAdmin, response) => {
         const userData = await database.fetchDataFromTable('User', `email = '${data.email}'`);
         if(userData.length === 0) {
             response.status(400).send({message: 'email or password incorrect'});
             return;
         }
-        // console.log('user data',userData);
-        // console.log(data);
+
         const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
         if(checkPassword === false) {
             response.status(400).send({message: 'email or password incorrect'});
@@ -47,7 +47,7 @@
             mobile : userData[0].mobile,
             email: userData[0].email,
             userId: userData[0].id,
-        }, response);
+        }, isAdmin, response);
         response.status(200).send({message: 'Login successfull'});
     },
 
@@ -62,13 +62,11 @@
             response.status(404).send({message: 'Email is not register with us!'});
             return;
         }
-        // console.log('userdata---> ', userData);
         const checkPassword = await bcryptService.passwordCompare(userData[0].password, data.password);
         if(!checkPassword) {
             response.status(400).send({message: 'Old password is incorrect'});
             return;
         }
-        // console.log('password before--------->', data.password);
         data.password = await bcryptService.encryptPassword(data.newPassword);
         delete data.newPassword;
         const updateData = await database.updateTableData('User', data, 'email', data.email);
@@ -77,6 +75,31 @@
         } else {
             response.status(200).send({message: 'password Update successfully'});
             // callback(null, updateStatus);
+        }
+    },
+
+    forgotPasssword = async (data, response) => {
+        if (!data.email) {
+            response.status(404).send({message: 'Parameter is missing'});
+            return;
+        }
+        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
+        if(!userData) {   // true means data found and false means data not found
+            response.status(404).send({message: 'Email is not register with us!'});
+            return;
+        }
+        const mailOptions = {
+            from : '',
+            to: data.email,
+            subject: 'Forgot Password Link',
+            // text: 'Click here to reset your link',
+            html: emailTemplates.forgotPassword(userData[0], 'google.com')
+        };
+        const sendResetPassword = await emailService.sendEmail(mailOptions);
+        if (sendResetPassword) {
+            response.status(200).send({message: `Reset link has been set to your email: ${mailOptions.to} link will expires in 10 minute`});
+        } else {
+            response.status(500).send(internalServerError);
         }
     },
 
@@ -121,7 +144,6 @@
 
     sendEmailActivationLink = async (emailOptions, request, response) => {
         link = `useremailverificationsddsbbds${request.cookies.S}_hgvghvghcgfcgf`;
-        console.log(link);
         const mailOptions = {
                 from: '',
                 to: emailOptions.email,
@@ -148,6 +170,7 @@
         userSignUp,
         getUsers, 
         updatePassword,
+        forgotPasssword,
         updateUserDetails,
         getUserDetails,
         sendEmailActivationLink,

@@ -8,7 +8,6 @@
     tokenAuthorization = async (request, response) => {
         const token = await request.cookies.S;
 
-        // console.log('token is here--------------->       ', token);
         if (token) {
             const isTokenValid = await tokenService.verifyToken(token);
             if(!isTokenValid) {
@@ -19,7 +18,6 @@
             response.status(403).send({message: 'Token is missing'});
             return false;
         }
-        // console.log('token is valid');
         return true;
     },
 

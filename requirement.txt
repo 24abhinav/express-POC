@@ -2,13 +2,11 @@
   
   signUp ---------------COMPLETED
   signIn ---------------COMPLETED
-  adminSignIn
+  adminSignIn ---------------COMPLETED
   emailVerification
-  verifyToken
-  forgotPassword
-  forgotPasswordForAdmin
+  verifyToken ---------------COMPLETED
+  forgotPassword ---------------COMPLETED
   updatePassword ---------------COMPLETED
-  resetPassword
   addUserInvestmentDetails
   updateUserInvestmentDetails
   updateCurrentValueOfPropertyByUser

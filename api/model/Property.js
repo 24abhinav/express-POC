@@ -40,7 +40,6 @@
         propertyDetails[0].images = images[0];
         propertyDetails[0].tenantDetails = tenantDetails[0];
 
-        // console.log(propertyDetails);
         if(propertyDetails === null) {
             response.status(500).send(internalServerError);
         } else {

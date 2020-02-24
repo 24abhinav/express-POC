@@ -17,7 +17,7 @@
         if(err) {
             console.log('error white connecting to Database--->', err)
         } else {
-            console.log('Database connected!!');
+            console.log(`Database connected on port  ${process.env.PORT}!`);
         }
     });
 
