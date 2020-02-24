@@ -20,13 +20,23 @@
             response.status(500).send(internalServerError);
             return;
         }
-        data.password = undefined;
         data.password = hashedPassword
         const inserData = await database.inserDataToTable('User', data);
-        if(inserData === null) {
-            response.status(500).send(internalServerError);
+        if(inserData) {
+            const mailOptions = {
+                subject: 'Email activation link',
+                from: '',
+                to: data.email,
+                html: emailTemplates.activateAccount(data, 'facebook.com/activate/account')
+            };
+            const sendEmailActivationLink = await emailService.sendEmail(mailOptions);
+            if(sendEmailActivationLink) {
+                response.status(200).send({message: 'SignUp successfull'});
+            } else {
+                response.status(700).send(internalServerError);
+            }
         } else {
-            response.status(200).send({message: 'SignUp successfull'});
+            response.status(500).send(internalServerError);
         }
     },
 

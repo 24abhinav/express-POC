@@ -20,7 +20,6 @@
             mailOptions.from = gmailCredental.user;
             const result = await send(mailOptions);
             res(result);
-
             // transpoter.verify((err, verify) => {
             //     if(err) {
             //         console.log('confir is not correct-->', err)
