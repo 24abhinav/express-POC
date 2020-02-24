@@ -3,7 +3,7 @@
   signUp ---------------COMPLETED
   signIn ---------------COMPLETED
   adminSignIn ---------------COMPLETED
-  emailVerification
+  emailVerification ---------------COMPLETED
   verifyToken ---------------COMPLETED
   forgotPassword ---------------COMPLETED
   updatePassword ---------------COMPLETED
@@ -26,10 +26,7 @@
 
   addPropertyDetails ---------------COMPLETED
   updatePropertyDetails ---------------COMPLETED
-  deleteProperty
-  changeStatus
-  addFeaturedProperty
-  getFeaturedProperties
+  changePropertyStatus
   listProperties ---------------COMPLETED
   listProperty ---------------COMPLETED
   addTenants ---------------COMPLETED
