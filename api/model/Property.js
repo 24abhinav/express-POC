@@ -5,10 +5,10 @@
 
     addProperty = async (propertyData, response) => {
         let insertData = await databse.inserDataToTable('property', propertyData);
-        if (insertData === null) {
-            response.status(500).send(internalServerError);
-        } else {
+        if (insertData) {
             response.status(200).send({message: 'property Added successfully'});
+        } else {
+            response.status(500).send(internalServerError);
         }
     },
 
@@ -21,9 +21,8 @@
         }
     },
 
-    fetchPropertyDetails = async (request, response) => {
+    fetchPropertyDetails = async (propertyId) => {
         // const query = `SELECT * FROM property INNER JOIN countries ON property.country = countries.id INNER JOIN pricingmodel on property.pricingModel = pricingmodel.id INNER JOIN states on property.state = states.id INNER JOIN cities on property.city = cities.id WHERE property.id = ${propertyId};`;
-        const propertyId = request.cookies.propertyId;
         let propertyDetails = await databse.fetchDataFromTable('property', `id = ${propertyId}`);
         const pricingModel = await databse.fetchDataFromTable('pricingmodel', `propertyId = ${propertyDetails[0].pricingModel}`);
         const country = await databse.fetchDataFromTable('countries', `id = ${propertyDetails[0].country}`);
@@ -39,12 +38,7 @@
         propertyDetails[0].city = city[0];
         propertyDetails[0].images = images[0];
         propertyDetails[0].tenantDetails = tenantDetails[0];
-
-        if(propertyDetails === null) {
-            response.status(500).send(internalServerError);
-        } else {
-            response.status(200).json(propertyDetails);
-        }
+        return propertyDetails;
     },
 
     module.exports = {

@@ -175,6 +175,8 @@
         }
     },
 
+    // For Admin Panel
+
     module.exports = {
         userLogin,
         userSignUp,

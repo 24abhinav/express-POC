@@ -10,6 +10,8 @@
     const countryData = require('./api/model/countryData');
     const contact = require('./api/model/Contact');
     const propertyBooking = require('./api/model/propertyEnquiry');
+    const investers = require('./api/model/Invester');
+    const internalServerError = {message: 'Internal server Error'};
 
     const middleWares = require('./api/services/middleWares');
     const cors = require('cors');
@@ -86,7 +88,12 @@
     });
 
     app.get('/fetch/property/details', middleWares.tokenAuthorizer(), async (req, res) => {
-        Property.fetchPropertyDetails(req, res);
+        const propertyDetails = await Property.fetchPropertyDetails(req.cookies.propertyId);
+        if(propertyDetails) {
+            res.status(200).json(propertyDetails);
+        } else {
+            res.status(500).send(internalServerError);
+        }
     });
 
     // ------------------------------------------- Contact Model  -------------------------------------------
@@ -141,6 +148,11 @@
         tenantDetails.deletePropertyTenantAssociation(req.body, res);
     });
 
+    // ------------------------------------------- API for user Dashboard  -------------------------------------------
+
+    app.get('/fetch/investmentDetailsByUserId/:userId', middleWares.tokenAuthorizer(), async (req, res) => {
+        investers.investmentDetailsByUserId(req.params.userId, res);
+    });
 
     // ------------------------------------------- SERVER SETUP  -------------------------------------------
     const serverPort = process.env.PORT;

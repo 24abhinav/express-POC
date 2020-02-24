@@ -15,12 +15,15 @@
   addMonthlyRentForInvestedProperty
   fetchMonthlyRentForInvestedPropertyByUserId
   fetchAllUsers ---------------COMPLETED
-  fetchAllInvestors
   fetchUserDetails ---------------COMPLETED
   updateUserDetails ---------------COMPLETED
-  checkEmail
   sendEmailForFindBuyer
-  changeInvesterStatus
+  changeInvestorStatus
+
+  addInvestor  ---------------COMPLETED
+  fetchAllInvestors ---------------COMPLETED
+  fetchInvestmentDetailsByPropertyId ---------------COMPLETED
+  fetchInvestmentDetailsByUserId ---------------COMPLETED
 
   // ------------------------ PROPERTY MODEL -----------------------
 
