@@ -1,4 +1,5 @@
 (function() {
+
     forgotPassword = (userData, link) => {
         const template = 
         `<div style="padding: 20px; background: #ef5c5c; text-align: center; font-family: sans-serif;">
@@ -10,6 +11,7 @@
 
         return template;
     },
+
     activateAccount = (userData, link) => {
         const template = 
         `<div style="padding: 20px; background: #ef5c5c; text-align: center; font-family: sans-serif;">
@@ -20,6 +22,7 @@
         </div>`
         return template;
     },
+
     module.exports = {
         forgotPassword,
         activateAccount,
