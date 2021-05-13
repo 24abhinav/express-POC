@@ -1,10 +1,10 @@
 (function() {
 
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const internalServerError = {message: 'Internal server Error'};
 
     addTenant = async (data, response) => {
-        const tenantData = await database.inserDataToTable('tenantdetails', data);
+        const tenantData = await database.insertDataToTable('tenantdetails', data);
         if(tenantData === null) {
             response.status(500).send(internalServerError);
         } else {
@@ -20,7 +20,7 @@
         } else if(checkDuplicate.length > 0) {
             response.status(409).send({message: 'mapping has already been done!!'});
         } else {
-            const isDataMapped = await database.inserDataToTable('propertytenantassociation', data);
+            const isDataMapped = await database.insertDataToTable('propertytenantassociation', data);
             if(isDataMapped === null) {
                 response.status(500).send(internalServerError);
             } else {

@@ -1,5 +1,5 @@
 (function() {
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const serverError = {message: 'Internal server Error!'};
 
     fetchCountryList = async (request, response) => {

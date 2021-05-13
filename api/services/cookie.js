@@ -23,7 +23,7 @@
 
     userLogout = async (response) => {
         await response.clearCookie('S');
-        response.status(200).send({message: 'Logout successfull'});
+        response.status(200).send({message: 'Logout successful'});
     },
 
     module.exports = {

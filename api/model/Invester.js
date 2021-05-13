@@ -1,23 +1,23 @@
 (function() {
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const property = require('../model/Property');
     const internalServerError = { message: 'Internal server error'};
 
     addInvestor = async (requestPayload, response) => {
-        const addInvestordata = await database.inserDataToTable('investors', requestPayload);
-        if(addInvestordata) {
-            response.status(200).send({message: 'Invester addedd successfully'});
+        const addInvestorData = await database.insertDataToTable('investors', requestPayload);
+        if(addInvestorData) {
+            response.status(200).send({message: 'Investor addedd successfully'});
         } else {
             response.status(500).send(internalServerError);
         }
     },
 
     fetchAllInvestors = async (response) => {
-        const investerList = await database.fetchDataFromTable('User', `hasInvested = ${true}`);
-        response.status(200).send(investerList);
+        const investorList = await database.fetchDataFromTable('User', `hasInvested = ${true}`);
+        response.status(200).send(investorList);
     },
 
-    fetchInveterDetailsByPropertyId = async (propertyId, response) => {
+    fetchInvestorDetailsByPropertyId = async (propertyId, response) => {
         const query =
         `SELECT * FROM investors
         INNER JOIN user ON investors.userId = user.id
@@ -51,7 +51,7 @@
     module.exports = {
         addInvestor,
         fetchAllInvestors,
-        fetchInveterDetailsByPropertyId,
+        fetchInvestorDetailsByPropertyId,
         investmentDetailsByUserId,
     };
 

@@ -2,11 +2,11 @@
     const express = require('express');
     const router = express.Router();
 
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const serverError = { message: 'Internal server Error!' };
     const user = require('../model/User');
     const middlewares = require('../services/middleWares');
-    const investor = require('../model/Invester');
+    const investor = require('../model/investor');
 
     // parameter true indicates that API is getting called for Admin
     router.post('/signin', async (req, res, next) => {

@@ -10,7 +10,7 @@
     const countryData = require('./api/model/countryData');
     const contact = require('./api/model/Contact');
     const propertyBooking = require('./api/model/propertyEnquiry');
-    const investers = require('./api/model/Invester');
+    const investors = require('./api/model/investor');
     const internalServerError = {message: 'Internal server Error'};
 
     const middleWares = require('./api/services/middleWares');
@@ -131,7 +131,7 @@
     });
 
     app.patch('/update/pricingModel',middleWares.tokenAuthorizer(), async (req, res) => {
-        pricingModel.updatePringModelData(req.body, res);
+        pricingModel.updatePricingModelData(req.body, res);
     });
 
     // ------------------------------------------- Tenant Details Model  -------------------------------------------
@@ -151,7 +151,7 @@
     // ------------------------------------------- API for user Dashboard  -------------------------------------------
 
     app.get('/fetch/investmentDetailsByUserId/:userId', middleWares.tokenAuthorizer(), async (req, res) => {
-        investers.investmentDetailsByUserId(req.params.userId, res);
+        investors.investmentDetailsByUserId(req.params.userId, res);
     });
 
     // ------------------------------------------- SERVER SETUP  -------------------------------------------

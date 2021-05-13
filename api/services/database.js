@@ -21,7 +21,7 @@
         }
     });
 
-    inserDataToTable = async (tableName, tableData) => {
+    insertDataToTable = async (tableName, tableData) => {
        return new Promise(async (res, rej) => {
         const date = new Date();
         const todayDate = date.toISOString().split('T')[0] + ' '  + date.toTimeString().split(' ')[0];
@@ -95,9 +95,9 @@
             res(query);
         });
     },
-    checkDuplicate = async (tableName, idetifier, idetifierValue) => {
+    checkDuplicate = async (tableName, identifier, identifierValue) => {
         return new Promise(async (res, rej) => {
-            const tableData = await fetchDataFromTable(tableName, `${idetifier} = '${idetifierValue}'`);
+            const tableData = await fetchDataFromTable(tableName, `${identifier} = '${identifierValue}'`);
             if(tableData.length !== 0) {
                 res(tableData);
             } else {
@@ -112,7 +112,7 @@
     // }
 
     module.exports = {
-        inserDataToTable,
+        insertDataToTable,
         fetchDataFromTable,
         updateTableData,
         checkDuplicate,

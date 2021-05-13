@@ -1,10 +1,10 @@
 (function() {
 
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const serverError = {message: 'Internal server Error!'};
 
     addContactDetails = async (contactDetails, response) => {
-        const insertData = await database.inserDataToTable('contact', contactDetails);
+        const insertData = await database.insertDataToTable('contact', contactDetails);
         if(insertData) {
             response.status(200).send({message: 'contact details addedd successfully'});
         } else {

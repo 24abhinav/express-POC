@@ -1,7 +1,7 @@
 (function() {
 
     const tokenService = require('../services/token');
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const bcryptService = require('../services/bcrypt');
     const emailService = require('../services/email');
     const emailTemplates = require('../../views/emailTemplates');
@@ -9,7 +9,7 @@
 
 
     userSignUp = async (data, response) => {
-        const checkDuplicate = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
+        const checkDuplicate = await database.checkDuplicate('User', 'email', data.email); // tableName, identifierName, identifierValue
         if(checkDuplicate) { // true means data found and false means data not found
             response.status(409).send({message: 'User already exist'});
             return;
@@ -21,8 +21,8 @@
             return;
         }
         data.password = hashedPassword
-        const inserData = await database.inserDataToTable('User', data);
-        if(inserData) {
+        const insertData = await database.insertDataToTable('User', data);
+        if(insertData) {
             const mailOptions = {
                 subject: 'Email activation link',
                 from: '',
@@ -31,7 +31,7 @@
             };
             const sendEmailActivationLink = await emailService.sendEmail(mailOptions);
             if(sendEmailActivationLink) {
-                response.status(200).send({message: 'SignUp successfull'});
+                response.status(200).send({message: 'SignUp successful'});
             } else {
                 response.status(700).send(internalServerError);
             }
@@ -58,7 +58,7 @@
             email: userData[0].email,
             userId: userData[0].id,
         }, isAdmin, response);
-        response.status(200).send({message: 'Login successfull'});
+        response.status(200).send({message: 'Login successful'});
     },
 
     updatePassword = async (data, response) => {
@@ -67,7 +67,7 @@
             return;
         }
 
-        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
+        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, identifierName, identifierValue
         if(!userData) {   // true means data found and false means data not found
             response.status(404).send({message: 'Email is not register with us!'});
             return;
@@ -88,12 +88,12 @@
         }
     },
 
-    forgotPasssword = async (data, response) => {
+    forgotPassword = async (data, response) => {
         if (!data.email) {
             response.status(404).send({message: 'Parameter is missing'});
             return;
         }
-        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
+        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, identifierName, identifierValue
         if(!userData) {   // true means data found and false means data not found
             response.status(404).send({message: 'Email is not register with us!'});
             return;
@@ -114,7 +114,7 @@
     },
 
     updateUserDetails = async (data, response) => {
-        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, idetifierName, identifierValue
+        const userData = await database.checkDuplicate('User', 'email', data.email); // tableName, identifierName, identifierValue
         if(!userData) {   // true means data found and false means data not found
             response.status(404).send({message: 'Email is not register with us!'})
             return;
@@ -139,8 +139,8 @@
 
     getUserDetails = async (request, response) => {
         const { userId } = await tokenService.decodeToken(request.cookies.S);
-        const existance = await database.checkDuplicate('User', 'id', userId);
-        if(!existance) {
+        const existence = await database.checkDuplicate('User', 'id', userId);
+        if(!existence) {
             response.status(400).send({message: 'User does not exists'})
             return;
         }
@@ -182,7 +182,7 @@
         userSignUp,
         getUsers, 
         updatePassword,
-        forgotPasssword,
+        forgotPassword,
         updateUserDetails,
         getUserDetails,
         sendEmailActivationLink,

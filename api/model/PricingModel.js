@@ -1,9 +1,9 @@
 (function() {
-    const database = require('../services/databse');
+    const database = require('../services/database');
     const internalServerError = { message: 'Internal server error'};
 
     addPricingModel = async (data, response) => {
-        const isDataInserted = await database.inserDataToTable('pricingmodel', data);
+        const isDataInserted = await database.insertDataToTable('pricingmodel', data);
         if(isDataInserted === null) {
             response.status(500).send(internalServerError);
         } else {
@@ -11,7 +11,7 @@
         }
     },
 
-    updatePringModelData = async (data, response) => {
+    updatePricingModelData = async (data, response) => {
         const isDataUpdated = await database.updateTableData('pricingmodel', data, 'propertyId', data.propertyId);
         if(isDataUpdated === null) {
             response.status(500).send(internalServerError);
@@ -22,6 +22,6 @@
 
     module.exports = {
         addPricingModel,
-        updatePringModelData,
+        updatePricingModelData,
     };
 }());
